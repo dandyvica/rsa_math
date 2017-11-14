@@ -17,7 +17,7 @@ RSA algorithms, private/public key, certificates, etc
 
 ## RSA algorithm
 
-1. Generate a pair of large, random primes p and q
+1. Generate a pair of large, random primes $p$ and $q$
 1. Compute the modulus n as n = pq
 1. Select an odd public exponent e between 3 and n-1 that is relatively prime to p-1
 and q-1
