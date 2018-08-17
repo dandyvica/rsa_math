@@ -56,11 +56,24 @@ This file has all the RSA keys into a single file. We can view individual elemen
 
 ```zsh
 openssl rsa -text -in key32.pem
+Private-Key: (32 bit)
+modulus: 3464342221 (0xce7daacd)
+publicExponent: 65537 (0x10001)
+privateExponent: 693510913 (0x29562301)
+prime1: 60779 (0xed6b)
+prime2: 56999 (0xdea7)
+exponent1: 33933 (0x848d)
+exponent2: 16247 (0x3f77)
+coefficient: 41468 (0xa1fc)
+writing RSA key
+-----BEGIN RSA PRIVATE KEY-----
+MC0CAQACBQDOfarNAgMBAAECBClWIwECAwDtawIDAN6nAgMAhI0CAj93AgMAofw=
+-----END RSA PRIVATE KEY-----
 ```
 
 This includes the modulus (also referred to as public key and n), public exponent (also referred to as e and exponent; default value is 65537), private exponent (d), and primes used to create keys (prime1, also called p, and prime2, also called q).
 
-We can verify value:
+We can verify n:
 
 * 3464342221 == 60779 * 56999 (n == pq)
 
