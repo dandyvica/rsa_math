@@ -14,18 +14,36 @@ RSA algorithms, private/public key, certificates, etc
 * finding a large prime (large is > 512 bits or 155 digits) is easy
 * multiplying 2 large integers is easy
 * factoring a large integer is hard
-* modular exponentiation is easy
-* modular root extraction (the reverse of modular exponentiation) is easy given the prime factors
-* modular root extraction is otherwise hard
+* modular exponentiation is easy: given $n,m$ and $e$ it's easy to compute $c = m^e \; (mod \; n)$
+* modular root extraction (the reverse of modular exponentiation) is easy given the prime factors: given $n,c$ and $e$ and prime factors $p$ and $q$, it's easy to recover the value $m$ such that $c = m^e \; (mod \; n)$. Modular root extraction is otherwise hard
 
 ## RSA algorithm
 
 1. Generate a pair of large, random primes $p$ and $q$
-1. Compute the modulus n as n = pq
-1. Select an odd public exponent e between 3 and n-1 that is relatively prime to p-1
-and q-1
-1. Compute the private exponent d from e, p and q
-1. Output (n, e) as the public key and (n, d) as the private key
+1. Compute the modulus $n$ as $n = pq$
+1. Select an odd public exponent $e$ between 3 and $n-1$ that is coprime to $\;\phi(n) = (p-1)(q-1)$
+1. Compute the private exponent $d$ from $e$, $p$ and $q$ such that $d$ is the multiplicative inverse of $e$: $\;e.d \equiv 1 \; (mod \;\phi(n))$ which means, for some $k$: $\quad e.d \; = 1 + k\phi(n)$
+1. Output $(n, e)$ as the public key and $(n, d)$ as the private key
+
+### Encrypting plain text $M$ to get cyphertext $C$
+
+* Now if $M$ is the plaintext: $\quad C \equiv M^e \; (mod \; n)$
+
+### Decrypting cypher text $C$
+
+* Then: $\quad C^d \equiv (M^e)^d \equiv M^{ed} \equiv M^{1+k\phi(n)} \equiv M.M^{k\phi(n)} \; (mod \; n)$
+
+* But applying Euler's theorem: 
+- $\quad M^{\phi(p)} = M^{p-1} \equiv  1 \; (mod \; p)$
+- $\quad M^{\phi(q)} = M^{q-1} \equiv  1 \; (mod \; q)$
+
+* and using basic congurences properties:
+- $\quad (M^{p-1})^{k(q-1)} = M^{k(p-1)(q-1)} \equiv  1 \; (mod \; p)$
+- $\quad (M^{q-1})^{k(p-1)} = M^{k(p-1)(q-1)} \equiv  1 \; (mod \; q)$
+
+* and using Chinese remainder theorem: $M^{k\phi(n)} \equiv 1 \quad (mod \; n)$
+* so: $\quad C^d \equiv M \; (mod \; n)$
+
 
 ## Implementation concepts
 
